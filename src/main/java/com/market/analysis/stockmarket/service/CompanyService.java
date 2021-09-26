@@ -10,20 +10,30 @@ import com.market.analysis.stockmarket.repository.CompanyRepository;
 
 @Service
 public class CompanyService {
-	@Autowired
-	CompanyRepository companyRepository;
+    @Autowired
+    CompanyRepository companyRepository;
 
-	public List<Company> findAll() {
-		return companyRepository.findAll();
-	}
+    //get all data
+    public List<Company> findAll() {
+        return companyRepository.findAll();
+    }
 
-	public List<Company> getNSEcodeWithCompanyData() {
-		return companyRepository.getNSEcode();
-	}
+    //save perticular data
+    public void saveCompany(Company company) {
+        companyRepository.save(company);
+    }
 
-	public List<Company> save(List<Company> company) {
-		companyRepository.saveAll(company);
-		return company;
-	}
+    //save all list
+    public List<Company> saveCompanyList(List<Company> company) {
+        companyRepository.saveAll(company);
+        return company;
+    }
 
+    public Company getCompanyByID(Long id)
+    {
+        return companyRepository.getById(id);
+    }
+    public List<Company> getNSEcodeWithCompanyData() {
+        return companyRepository.getNSEcode();
+    }
 }
