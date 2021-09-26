@@ -3,8 +3,6 @@ package com.market.analysis.stockmarket.controller;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +23,6 @@ import yahoofinance.YahooFinance;
 @RequestMapping("/company")
 public class CompanyController {
 private static final Logger logger=  LoggerFactory.getLogger(CompanyController.class);
-
-	@Autowired(required = false)
-	Company company;
 
 	@Autowired
 	CompanyService companyService;
@@ -59,11 +54,8 @@ private static final Logger logger=  LoggerFactory.getLogger(CompanyController.c
 						String cmpNameD = stock.getName();
 						e.setCompanyName(cmpNameD);
 					}
-
 					stock.print();
 				}
-				else
-					logger.info("Stock is not valid");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

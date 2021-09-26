@@ -2,7 +2,9 @@ package com.market.analysis.stockmarket.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,7 +38,7 @@ public class StockDataController {
 		ArrayList<StockData> lstStockData = new ArrayList<StockData>();
 		cmp.forEach(e -> {
 			try {
-				if (!e.getNseCode().isEmpty()&&e.getStockId()>453) {
+				if (!e.getNseCode().isEmpty()) {
 					Stock stock = YahooFinance.get(e.getNseCode().trim() + ".NS");
 					if (e.getNseCode() != null && stock.isValid()&& stock!=null ) {
 						//Created new object of company and saving information
@@ -51,17 +53,23 @@ public class StockDataController {
 						StockData stockData = new StockData();
 						BigDecimal price = stock.getQuote().getPrice();
 						stockData.setPrice(price);
-						BigDecimal change = stock.getQuote().getChangeInPercent();
 						BigDecimal marketCap = stock.getStats().getMarketCap();
 						if(marketCap!=null)
 						stockData.setMarketCap(marketCap);
 						BigDecimal dividend = stock.getDividend().getAnnualYield();
 						stockData.setDividend(dividend);
+						BigDecimal EPS=stock.getStats().getEps();
+						stockData.setEPS(EPS);
 						stockData.setCompany(company);
-						logger.info("--------" + stock.getName().toString() + "-------");
-						logger.info("Stock DB ID:"+e.getStockId()+" price:" + price + " " + "change:" + change + " " + "dividend:" + dividend
-								+ " " + "marketCap:" + marketCap);
+						BigDecimal pe=stock.getStats().getPe();
+						stockData.setPE(pe);
 						lstStockData.add(stockData);
+
+						logger.info("--------" + stock.getName() + "-------");
+						logger.info("Stock DB ID:"+e.getStockId()+" price:" + price +" " + "dividend:" + dividend + " " + "marketCap:" + marketCap);
+						logger.info("EPS:"+stock.getStats().getEps()+" PE:"+
+								stock.getStats().getPe());
+						logger.info("**************************************");
 					}
 				}
 			} catch (IOException e1) {

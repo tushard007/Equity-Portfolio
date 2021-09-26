@@ -18,7 +18,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name="t_stock_data")
-
 public class StockData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,27 +25,19 @@ public class StockData {
 	private BigDecimal price;
 	private	BigDecimal marketCap;
 	private BigDecimal dividend ;
-	private	BigDecimal revenue;
+	private BigDecimal EPS;
+	private BigDecimal PE;
+
 	@CreationTimestamp
 	private Date dateCreated;
 	@Column(name = "timestamp")
 	@UpdateTimestamp
 	private Date timestamp;
-	
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="stock_Company_Id",
 	referencedColumnName = "stock_Id")
 	private Company company;
-
-	@Override
-	public String toString() {
-		return "StockData [stockDataId=" + stockDataId + ", price=" + price + ", marketCap=" + marketCap + ", dividend="
-				+ dividend + ", revenue=" + revenue + ", dateCreated=" + dateCreated + ", timestamp=" + timestamp
-				+ ", company=" + company + "]";
-	}
-	public Company getCompany() {
-		return company;
-	}
+	public Company getCompany() {return company;}
 	public void setCompany(Company company) {
 		this.company = company;
 	}
@@ -75,12 +66,6 @@ public class StockData {
 	public void setDividend(BigDecimal dividend) {
 		this.dividend = dividend;
 	}
-	public BigDecimal getRevenue() {
-		return revenue;
-	}
-	public void setRevenue(BigDecimal revenue) {
-		this.revenue = revenue;
-	}
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -92,5 +77,24 @@ public class StockData {
 	}
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
+	}
+	public BigDecimal getEPS() {return EPS;}
+	public void setEPS(BigDecimal EPS) {this.EPS = EPS;}
+	public BigDecimal getPE() {return PE;}
+	public void setPE(BigDecimal PE) {this.PE = PE;}
+
+	@Override
+	public String toString() {
+		return "StockData{" +
+				"stockDataId=" + stockDataId +
+				", price=" + price +
+				", marketCap=" + marketCap +
+				", dividend=" + dividend +
+				", EPS=" + EPS +
+				", PE=" + PE +
+				", dateCreated=" + dateCreated +
+				", timestamp=" + timestamp +
+				", company=" + company +
+				'}';
 	}
 }

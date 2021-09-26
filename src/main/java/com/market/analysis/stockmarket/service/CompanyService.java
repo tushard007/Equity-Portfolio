@@ -29,10 +29,10 @@ public class CompanyService {
         return company;
     }
 
-    public Company getCompanyByID(Long id)
-    {
+    public Company getCompanyByID(Long id) {
         return companyRepository.getById(id);
     }
+
     public List<Company> getNSEcodeWithCompanyData() {
         return companyRepository.getNSEcode();
     }
