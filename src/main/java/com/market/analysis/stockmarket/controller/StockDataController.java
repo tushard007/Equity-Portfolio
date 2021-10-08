@@ -10,10 +10,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import com.market.analysis.stockmarket.entity.Company;
 import com.market.analysis.stockmarket.entity.StockData;
 import com.market.analysis.stockmarket.service.CompanyService;
@@ -23,7 +22,7 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 @RestController
-@RequestMapping("/Stock")
+@RequestMapping("api/v1")
 public class StockDataController {
 	private static final Logger logger=  LoggerFactory.getLogger(StockDataController.class);
 
@@ -32,8 +31,8 @@ public class StockDataController {
 	@Autowired
 	StockDataService stockDataService;
 
-	@PostMapping("/SaveQuote")
-	public void saveStockQuote() throws IOException {
+	@PostMapping("/stockData")
+	public ResponseEntity <ArrayList<StockData>> saveStockQuote() throws IOException {
 		List<Company> cmp = companyService.getNSEcodeWithCompanyData();
 		ArrayList<StockData> lstStockData = new ArrayList<StockData>();
 		cmp.forEach(e -> {
@@ -70,6 +69,7 @@ public class StockDataController {
 						logger.info("EPS:"+stock.getStats().getEps()+" PE:"+
 								stock.getStats().getPe());
 						logger.info("**************************************");
+
 					}
 				}
 			} catch (IOException e1) {
@@ -78,11 +78,19 @@ public class StockDataController {
 				stockDataService.save(lstStockData);
 			}
 		});
+		return new ResponseEntity<ArrayList<StockData>> (lstStockData, HttpStatus.OK);
 	}
 	
-	@GetMapping("/GetStockInfo")
-	public void getStockQuote() throws IOException {
+	@GetMapping("/stockData")
+	public ResponseEntity <List<StockData>> getStockQuote() throws IOException {
 	List<StockData> lstStkData=	stockDataService.findAllStockData();
 		System.out.println("Stock data-"+lstStkData);
+		return new ResponseEntity<List<StockData>> (lstStkData, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/stockData/{id}")
+	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+		stockDataService.deletedStockData(id);
+		return new ResponseEntity<String>("Stock Data is deleted successfully.!", HttpStatus.OK);
 	}
 }

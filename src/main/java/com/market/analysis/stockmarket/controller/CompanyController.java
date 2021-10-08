@@ -20,7 +20,7 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("api/v1")
 public class CompanyController {
 private static final Logger logger=  LoggerFactory.getLogger(CompanyController.class);
 

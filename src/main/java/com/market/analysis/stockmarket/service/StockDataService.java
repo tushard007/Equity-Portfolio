@@ -23,4 +23,8 @@ public class StockDataService {
 	public List<StockData> findAllStockData(){
 	return	stockDataRepository.findAll();
 	}
+
+	public void deletedStockData(Long id){
+		stockDataRepository.deleteById(id);
+	}
 }
