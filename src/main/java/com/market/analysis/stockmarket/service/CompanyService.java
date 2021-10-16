@@ -18,7 +18,7 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
-    //save perticular data
+    //save particular data
     public void saveCompany(Company company) {
         companyRepository.save(company);
     }
@@ -35,5 +35,9 @@ public class CompanyService {
 
     public List<Company> getNSEcodeWithCompanyData() {
         return companyRepository.getNSEcode();
+    }
+
+    public List<Company> getCoreCompanyTableLastRow(){
+        return companyRepository.getCoreCompanyTableLastRow();
     }
 }

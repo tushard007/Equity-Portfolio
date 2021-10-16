@@ -15,7 +15,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.opencsv.bean.CsvBindByPosition;
 
 @Entity
-@Table(name = "t_core_comapany_data")
+@Table(name = "t_core_company_data")
 public class Company {
 
 	@Id

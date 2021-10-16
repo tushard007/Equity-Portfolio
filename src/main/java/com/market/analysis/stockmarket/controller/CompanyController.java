@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.market.analysis.stockmarket.Constants;
 import com.market.analysis.stockmarket.entity.Company;
 import com.market.analysis.stockmarket.service.CompanyService;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -29,11 +30,11 @@ private static final Logger logger=  LoggerFactory.getLogger(CompanyController.c
 
 	@GetMapping("/readcsv")
 	public void readCSVFile() throws IOException, CsvException {
-		String fileName = "E:\\project\\screener data.csv";
-		List lstCompanyData = new CsvToBeanBuilder(new FileReader(fileName)).withType(Company.class).build()
+		String fileName = Constants.COMPANY_CORE_DATA_CSV_PATH;
+		List objCompanyData = new CsvToBeanBuilder(new FileReader(fileName)).withType(Company.class).build()
 				.parse();
-		saveCompanyData(lstCompanyData);
-		lstCompanyData.forEach(System.out::println);
+		saveCompanyData(objCompanyData);
+		objCompanyData.forEach(System.out::println);
 	}
 
 	@PostMapping("/SaveCompanies")

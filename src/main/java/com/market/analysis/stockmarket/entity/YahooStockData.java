@@ -17,8 +17,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name="t_stock_data")
-public class StockData {
+@Table(name="t_yahoo_stock_data")
+public class YahooStockData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long stockDataId;
@@ -85,7 +85,7 @@ public class StockData {
 
 	@Override
 	public String toString() {
-		return "StockData{" +
+		return "YahooStockData{" +
 				"stockDataId=" + stockDataId +
 				", price=" + price +
 				", marketCap=" + marketCap +
