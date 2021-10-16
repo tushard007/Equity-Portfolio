@@ -28,7 +28,7 @@ private static final Logger logger=  LoggerFactory.getLogger(CompanyController.c
 	@Autowired
 	CompanyService companyService;
 
-	@GetMapping("/readcsv")
+	@GetMapping("/readCSVData")
 	public void readCSVFile() throws IOException, CsvException {
 		String fileName = Constants.COMPANY_CORE_DATA_CSV_PATH;
 		List objCompanyData = new CsvToBeanBuilder(new FileReader(fileName)).withType(Company.class).build()
