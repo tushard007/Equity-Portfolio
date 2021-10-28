@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.market.analysis.stockmarket.Constants;
 import com.market.analysis.stockmarket.entity.Company;
 import com.market.analysis.stockmarket.service.CompanyService;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvException;
-
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 

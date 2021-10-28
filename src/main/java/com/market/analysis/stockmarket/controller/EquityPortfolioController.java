@@ -1,9 +1,8 @@
 package com.market.analysis.stockmarket.controller;
 
 import java.util.List;
-
+import com.market.analysis.stockmarket.entity.Company;
 import com.market.analysis.stockmarket.entity.EquityPortfolio;
-import com.market.analysis.stockmarket.service.CompanyService;
 import com.market.analysis.stockmarket.service.EquityPortfolioService;
 import com.market.analysis.stockmarket.service.YahooStockDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1")
 public class EquityPortfolioController {
     @Autowired
-    CompanyService companyService;
-    @Autowired
     YahooStockDataService stockDataService;
     @Autowired
     EquityPortfolioService equityPortfolioService;
@@ -36,6 +33,10 @@ public class EquityPortfolioController {
     @PostMapping("/EquityPortfolio")
     public ResponseEntity<EquityPortfolio> saveEquityPortfolio(@RequestBody EquityPortfolio equityPortfolio)
     {
+         Company company=new Company();
+         company.setStockId(equityPortfolio.getStock_Id_ref());
+         equityPortfolio.setCompany(company);
+
         EquityPortfolio objEquityPortfolio= equityPortfolioService.save(equityPortfolio);
         return new ResponseEntity<EquityPortfolio> (objEquityPortfolio, HttpStatus.CREATED);  
     }

@@ -1,19 +1,28 @@
 package com.market.analysis.stockmarket.entity;
 
 import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import com.opencsv.bean.CsvBindByPosition;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "t_core_company_data")
 public class Company {
@@ -40,51 +49,5 @@ public class Company {
 	@Column(name = "timestamp")
 	@UpdateTimestamp
 	private Date timestamp;
-
-	public Long getStockId() {
-		return stockId;
-	}
-
-	public void setStockId(Long stockId) {
-		this.stockId = stockId;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
-	public String getNseCode() {
-		return nseCode;
-	}
-
-	public void setNseCode(String nseCode) {
-		this.nseCode = nseCode;
-	}
-
-	public String getBseCode() {
-		return bseCode;
-	}
-
-	public void setBseCode(String bseCode) {
-		this.bseCode = bseCode;
-	}
-
-	public String getIndustry() {
-		return industry;
-	}
-
-	public void setIndustry(String industry) {
-		this.industry = industry;
-	}
-
-	@Override
-	public String toString() {
-		return "Company [stockId=" + stockId + ", companyName=" + companyName + ", nseCode=" + nseCode + ", bseCode="
-				+ bseCode + ", industry=" + industry + "]";
-	}
 
 }

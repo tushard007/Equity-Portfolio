@@ -2,12 +2,22 @@ package com.market.analysis.stockmarket.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "t_stock_idea")
 public class StockIdea {
@@ -29,42 +39,5 @@ public class StockIdea {
     @UpdateTimestamp
     private Date timestamp;
 
-
-
-    public String getSuggestedBy() {
-        return suggestedBy;
-    }
-
-    public void setSuggestedBy(String suggestedBy) {
-        this.suggestedBy = suggestedBy;
-    }
-
-    public String getInfoSource() {
-        return InfoSource;
-    }
-
-    public void setInfoSource(String infoSource) {
-        InfoSource = infoSource;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-    public Company getCompany() {return company;}
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
+  
 }
