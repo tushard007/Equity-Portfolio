@@ -29,7 +29,6 @@ public class Company {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@CsvBindByPosition(position = 0)
 	@Column(name = "stock_Id", nullable = false)
 	private Long stockId;
 	@CsvBindByPosition(position = 0)

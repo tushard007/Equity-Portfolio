@@ -24,7 +24,7 @@ public class StockIdea {
     @Id
     private Long id;
     private String suggestedBy;
-    private String InfoSource;
+    private String infoSource;
     private String theme;
 
     @OneToOne(cascade = CascadeType.MERGE)
@@ -39,5 +39,4 @@ public class StockIdea {
     @UpdateTimestamp
     private Date timestamp;
 
-  
 }
