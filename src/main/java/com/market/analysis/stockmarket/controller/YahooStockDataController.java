@@ -1,7 +1,6 @@
 package com.market.analysis.stockmarket.controller;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +15,10 @@ import com.market.analysis.stockmarket.entity.YahooStockData;
 import com.market.analysis.stockmarket.service.CompanyService;
 import com.market.analysis.stockmarket.service.YahooStockDataService;
 
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
-
 @RestController
 @RequestMapping("api/v1")
 public class YahooStockDataController {
-	private static final Logger logger=  LoggerFactory.getLogger(YahooStockDataController.class);
+	private static final Logger logger = LoggerFactory.getLogger(YahooStockDataController.class);
 
 	@Autowired
 	CompanyService companyService;
@@ -30,64 +26,20 @@ public class YahooStockDataController {
 	YahooStockDataService stockDataService;
 
 	@PostMapping("/stockData")
-	public ResponseEntity <ArrayList<YahooStockData>> saveStockQuote() throws IOException {
-		List<YahooStockData> lstStkData=stockDataService.findAllStockData();
-		ArrayList<YahooStockData> lstYahooStockData = new ArrayList<YahooStockData>();
-		
-		if(lstStkData.isEmpty()) {
-			List<Company> cmp = companyService.getNSEcodeWithCompanyData();
-			//Long lastQuoteId=stockDataService.getLastSockQuote();
-			cmp.forEach(e -> {
-				try {
-					if (!e.getNseCode().isEmpty()/*&& e.getStockId()>lastQuoteId*/) {
-						Stock stock = YahooFinance.get(e.getNseCode().trim() + ".NS");
-						if (e.getNseCode() != null && stock != null) {
-							//Created new object of company and saving information
-							Company company = new Company();
-							company.setStockId(e.getStockId());
-							company.setCompanyName(e.getCompanyName());
-							company.setBseCode(e.getBseCode());
-							company.setNseCode(e.getNseCode());
-							company.setIndustry(e.getIndustry());
-							logger.debug("Stock id:" + e.getStockId() + "\n");
-
-							YahooStockData yahooStockData = new YahooStockData();
-							BigDecimal price = stock.getQuote().getPrice();
-							yahooStockData.setPrice(price);
-							BigDecimal marketCap = stock.getStats().getMarketCap();
-							if (marketCap != null)
-								yahooStockData.setMarketCap(marketCap);
-							BigDecimal dividend = stock.getDividend().getAnnualYield();
-							yahooStockData.setDividend(dividend);
-							BigDecimal EPS = stock.getStats().getEps();
-							yahooStockData.setEPS(EPS);
-							yahooStockData.setCompany(company);
-							BigDecimal pe = stock.getStats().getPe();
-							yahooStockData.setPE(pe);
-							lstYahooStockData.add(yahooStockData);
-
-							logger.info("--------" + stock.getName() + "-------");
-							logger.info("Stock DB ID:" + e.getStockId() + " price:" + price + " " + "dividend:" + dividend + " " + "marketCap:" + marketCap);
-							logger.info("EPS:" + stock.getStats().getEps() + " PE:" +
-									stock.getStats().getPe());
-							logger.info("**************************************");
-
-						}
-					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			});
-			stockDataService.save(lstYahooStockData);
-		}
-		return new ResponseEntity<ArrayList<YahooStockData>> (lstYahooStockData, HttpStatus.CREATED);
+	public ResponseEntity<ArrayList<YahooStockData>> saveStockQuote() throws IOException {
+		ArrayList<YahooStockData> lstStkData = stockDataService.findAllStockData();
+		List<Company> cmp = companyService.getNSEcodeWithCompanyData();
+		stockDataService.getLatestStockInfo(lstStkData, cmp);
+		ArrayList<YahooStockData> updatedStkData = stockDataService.findAllStockData();
+		logger.info("Total: "+updatedStkData.size()+" records available in database");
+		return new ResponseEntity<ArrayList<YahooStockData>>(updatedStkData, HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/stockData")
-	public ResponseEntity <List<YahooStockData>> getStockQuote() throws IOException {
-	List<YahooStockData> lstStkData=	stockDataService.findAllStockData();
-		System.out.println("Stock data-"+lstStkData);
-		return new ResponseEntity<List<YahooStockData>> (lstStkData, HttpStatus.OK);
+	public ResponseEntity<List<YahooStockData>> getStockQuote() throws IOException {
+		List<YahooStockData> lstStkData = stockDataService.findAllStockData();
+		System.out.println("Stock data-" + lstStkData);
+		return new ResponseEntity<List<YahooStockData>>(lstStkData, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/stockData/{id}")
