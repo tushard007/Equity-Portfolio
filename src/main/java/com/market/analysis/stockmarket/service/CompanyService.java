@@ -33,6 +33,10 @@ public class CompanyService {
         return companyRepository.getById(id);
     }
 
+    public Company getCompanyByNSECode(String nseCode) {
+        return companyRepository.getByNseCode(nseCode);
+    }
+
     public List<Company> getNSEcodeWithCompanyData() {
         return companyRepository.getNSEcode();
     }

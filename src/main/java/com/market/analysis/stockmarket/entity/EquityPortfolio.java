@@ -31,10 +31,11 @@ public class EquityPortfolio {
     private Integer quantity;
     @CsvBindByPosition(position = 2)
     private float average_cost;
+    private float invested_value;
     private float last_trading_price;
     private float current_value;
     private float profit_loss;
-    private float net_change;
+    private float netPercentage_change;
     @CsvBindByPosition(position = 3)
     private String broker;
     @CsvBindByPosition(position = 4)

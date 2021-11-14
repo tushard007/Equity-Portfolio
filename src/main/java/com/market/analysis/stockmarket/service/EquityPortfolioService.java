@@ -1,10 +1,16 @@
 package com.market.analysis.stockmarket.service;
 
+import com.market.analysis.stockmarket.entity.Company;
 import com.market.analysis.stockmarket.entity.EquityPortfolio;
 import com.market.analysis.stockmarket.repository.EquityPortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -12,7 +18,8 @@ public class EquityPortfolioService {
 
     @Autowired
     EquityPortfolioRepository equityPortfolioRepository;
-
+    @Autowired
+    CompanyService companyService;
     // Get all EquityPortfolio Data
     public List<EquityPortfolio> findAll() {
         return equityPortfolioRepository.findAll();
@@ -34,6 +41,22 @@ public class EquityPortfolioService {
 
     // Save all equity portfolio list
     public List<EquityPortfolio> SaveAllList(List<EquityPortfolio> equityPortfolioList) {
+        equityPortfolioList.forEach(equityPortfolio -> {
+            Company comp= companyService.getCompanyByNSECode(equityPortfolio.getStockSymbol());
+            equityPortfolio.setCompany(comp);
+            try {
+                Stock stock = YahooFinance.get(equityPortfolio.getStockSymbol().trim()+ ".NS");
+                BigDecimal price = stock.getQuote().getPrice();
+                equityPortfolio.setLast_trading_price(price.floatValue());
+                equityPortfolio.setCurrent_value(equityPortfolio.getLast_trading_price()*(equityPortfolio.getQuantity()));
+                equityPortfolio.setInvested_Value(equityPortfolio.getAverage_cost()*equityPortfolio.getQuantity());
+                equityPortfolio.setProfit_loss(equityPortfolio.getCurrent_value()-equityPortfolio.getInvested_Value());
+                equityPortfolio.setNetPercentage_change((equityPortfolio.getProfit_loss()/equityPortfolio.getInvested_Value())*100);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
         equityPortfolioRepository.saveAll(equityPortfolioList);
         return equityPortfolioList;
     }

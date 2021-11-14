@@ -1,7 +1,7 @@
 package com.market.analysis.stockmarket.controller;
 
 import java.util.List;
-import com.market.analysis.stockmarket.entity.Company;
+
 import com.market.analysis.stockmarket.entity.EquityPortfolio;
 import com.market.analysis.stockmarket.service.EquityPortfolioService;
 import com.market.analysis.stockmarket.service.YahooStockDataService;
@@ -31,14 +31,9 @@ public class EquityPortfolioController {
     }
 
     @PostMapping("/EquityPortfolio")
-    public ResponseEntity<EquityPortfolio> saveEquityPortfolio(@RequestBody EquityPortfolio equityPortfolio)
-    {
-         Company company=new Company();
-         company.setStockId(equityPortfolio.getStock_Id_ref());
-         equityPortfolio.setCompany(company);
-
+    public ResponseEntity<EquityPortfolio> saveEquityPortfolio(@RequestBody EquityPortfolio equityPortfolio) {
         EquityPortfolio objEquityPortfolio= equityPortfolioService.save(equityPortfolio);
-        return new ResponseEntity<EquityPortfolio> (objEquityPortfolio, HttpStatus.CREATED);  
+        return new ResponseEntity<EquityPortfolio>(objEquityPortfolio, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/EquityPortfolio/{id}")
