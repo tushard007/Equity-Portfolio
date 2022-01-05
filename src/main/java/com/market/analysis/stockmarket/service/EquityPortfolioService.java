@@ -49,9 +49,9 @@ public class EquityPortfolioService {
                 BigDecimal price = stock.getQuote().getPrice();
                 equityPortfolio.setLast_trading_price(price.floatValue());
                 equityPortfolio.setCurrent_value(equityPortfolio.getLast_trading_price()*(equityPortfolio.getQuantity()));
-                equityPortfolio.setInvested_Value(equityPortfolio.getAverage_cost()*equityPortfolio.getQuantity());
-                equityPortfolio.setProfit_loss(equityPortfolio.getCurrent_value()-equityPortfolio.getInvested_Value());
-                equityPortfolio.setNetPercentage_change((equityPortfolio.getProfit_loss()/equityPortfolio.getInvested_Value())*100);
+                equityPortfolio.setInvested_value(equityPortfolio.getAverage_cost()*equityPortfolio.getQuantity());
+                equityPortfolio.setProfit_loss(equityPortfolio.getCurrent_value()-equityPortfolio.getInvested_value());
+                equityPortfolio.setNetPercentage_change((equityPortfolio.getProfit_loss()/equityPortfolio.getInvested_value())*100);
             } catch (IOException e) {
                 e.printStackTrace();
             }

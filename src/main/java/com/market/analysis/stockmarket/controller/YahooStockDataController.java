@@ -32,19 +32,19 @@ public class YahooStockDataController {
 		stockDataService.getLatestStockInfo(lstStkData, cmp);
 		ArrayList<YahooStockData> updatedStkData = stockDataService.findAllStockData();
 		logger.info("Total: "+updatedStkData.size()+" records available in database");
-		return new ResponseEntity<ArrayList<YahooStockData>>(updatedStkData, HttpStatus.CREATED);
+		return new ResponseEntity<>(updatedStkData, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/stockData")
 	public ResponseEntity<List<YahooStockData>> getStockQuote() throws IOException {
 		List<YahooStockData> lstStkData = stockDataService.findAllStockData();
 		System.out.println("Stock data-" + lstStkData);
-		return new ResponseEntity<List<YahooStockData>>(lstStkData, HttpStatus.OK);
+		return new ResponseEntity<>(lstStkData, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/stockData/{id}")
 	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
 		stockDataService.deletedStockData(id);
-		return new ResponseEntity<String>("Stock Data is deleted successfully.!", HttpStatus.OK);
+		return new ResponseEntity<>("Stock Data is deleted successfully.!", HttpStatus.OK);
 	}
 }

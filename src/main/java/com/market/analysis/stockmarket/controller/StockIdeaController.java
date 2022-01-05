@@ -20,10 +20,7 @@ public class StockIdeaController {
     @PostMapping(value = "/saveStockList")
 
     public ResponseEntity<StockIdea> saveStockList(@RequestBody List<StockIdea> stockResearch){
-      /*  StockIdea objStockResearch=new StockIdea();
-        objStockResearch.setSource("ABC");
-        objStockResearch.setSuggestedBy("skw");*/
         stockResearchService.saveStockResearchData(stockResearch);
-        return new ResponseEntity<StockIdea>((StockIdea) stockResearch,HttpStatus.CREATED);
+        return new ResponseEntity<>((StockIdea) stockResearch,HttpStatus.CREATED);
     }
 }

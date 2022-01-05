@@ -27,18 +27,18 @@ public class EquityPortfolioController {
     @GetMapping("/EquityPortfolio")
     public ResponseEntity<List<EquityPortfolio>> getEquityPortfolio() {
         List<EquityPortfolio> lstEqPortfolio = equityPortfolioService.findAll();
-        return new ResponseEntity<List<EquityPortfolio>>(lstEqPortfolio, HttpStatus.OK);
+        return new ResponseEntity<>(lstEqPortfolio, HttpStatus.OK);
     }
 
     @PostMapping("/EquityPortfolio")
     public ResponseEntity<EquityPortfolio> saveEquityPortfolio(@RequestBody EquityPortfolio equityPortfolio) {
         EquityPortfolio objEquityPortfolio= equityPortfolioService.save(equityPortfolio);
-        return new ResponseEntity<EquityPortfolio>(objEquityPortfolio, HttpStatus.CREATED);
+        return new ResponseEntity<>(objEquityPortfolio, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/EquityPortfolio/{id}")
     public ResponseEntity<String> deleteStock(@PathVariable("id") Long id){
         equityPortfolioService.delete(id);
-        return new ResponseEntity<String>("Stock has been deleted successfully",HttpStatus.OK);
+        return new ResponseEntity<>("Stock has been deleted successfully",HttpStatus.OK);
     }
 }
