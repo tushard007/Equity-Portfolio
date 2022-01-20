@@ -26,19 +26,18 @@ public class YahooStockDataController {
 	YahooStockDataService stockDataService;
 
 	@PostMapping("/stockData")
-	public ResponseEntity<ArrayList<YahooStockData>> saveStockQuote() throws IOException {
-		ArrayList<YahooStockData> lstStkData = stockDataService.findAllStockData();
+	public ResponseEntity<List<YahooStockData>> saveStockQuote() {
+		List<YahooStockData> lstStkData = stockDataService.findAllStockData();
 		List<Company> cmp = companyService.getNSEcodeWithCompanyData();
 		stockDataService.getLatestStockInfo(lstStkData, cmp);
-		ArrayList<YahooStockData> updatedStkData = stockDataService.findAllStockData();
-		logger.info("Total: "+updatedStkData.size()+" records available in database");
+		List<YahooStockData> updatedStkData = stockDataService.findAllStockData();
+		logger.info("Total:%s, updatedStkData.size(), records available in database");
 		return new ResponseEntity<>(updatedStkData, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/stockData")
-	public ResponseEntity<List<YahooStockData>> getStockQuote() throws IOException {
+	public ResponseEntity<List<YahooStockData>> getStockQuote() {
 		List<YahooStockData> lstStkData = stockDataService.findAllStockData();
-		System.out.println("Stock data-" + lstStkData);
 		return new ResponseEntity<>(lstStkData, HttpStatus.OK);
 	}
 

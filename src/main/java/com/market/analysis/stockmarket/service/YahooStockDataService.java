@@ -23,13 +23,13 @@ public class YahooStockDataService {
 	@Autowired
 	YahooStockDataRepository stockDataRepository;
 
-	public ArrayList<YahooStockData> saveStockList(ArrayList<YahooStockData> stkData) {
+	public List<YahooStockData> saveStockList(List<YahooStockData> stkData) {
 		stockDataRepository.saveAll(stkData);
 		return stkData;
 	}
 
-	public ArrayList<YahooStockData> findAllStockData() {
-		return (ArrayList<YahooStockData>) stockDataRepository.findAll();
+	public List<YahooStockData> findAllStockData() {
+		return stockDataRepository.findAll();
 	}
 
 	public void deletedStockData(Long id) {
@@ -41,8 +41,8 @@ public class YahooStockDataService {
 	}
 
 	// generic method to get stock Quote data from yahoo finance
-	public void getLatestStockInfo(ArrayList<YahooStockData> lstStkData, List<Company> cmp) {
-		if (lstStkData.size() > 0) {
+	public void getLatestStockInfo(List<YahooStockData> lstStkData, List<Company> cmp) {
+		if (!lstStkData.isEmpty()) {
 			lstStkData.forEach(l -> {
 				try {
 						Stock stock = YahooFinance.get(l.getCompany().getNseCode().trim()+ ".NS");
@@ -57,19 +57,17 @@ public class YahooStockDataService {
 							l.setPrice(price);
 							BigDecimal marketCap = stock.getStats().getMarketCap();
 							if (marketCap != null)
-							l.setMarketCap(marketCap.divideToIntegralValue(BigDecimal.valueOf(10000000)));
+							{
+								l.setMarketCap(marketCap.divideToIntegralValue(BigDecimal.valueOf(10000000)));
+							}
 							BigDecimal dividend = stock.getDividend().getAnnualYield();
 							l.setDividend(dividend);
-							BigDecimal EPS = stock.getStats().getEps();
-							l.setEPS(EPS);
+							BigDecimal eps = stock.getStats().getEps();
+							l.setEPS(eps);
 							l.setCompany(l.getCompany());
 							BigDecimal pe = stock.getStats().getPe();
 							l.setPE(pe);
 
-							logger.info("--------" + stock.getName() + "-------");
-							logger.info("Stock DB ID:" + l.getCompany().getStockId() + " price:" + price + " " + "dividend:"
-									+ dividend + " " + "marketCap:" + marketCap);
-							logger.info("EPS:" + stock.getStats().getEps() + " PE:" + stock.getStats().getPe());
 							logger.info("**************************************");
 							stockDataRepository.save(l);
 						}
@@ -79,7 +77,7 @@ public class YahooStockDataService {
 				}
 			});
 		} else {
-			ArrayList<YahooStockData> lstYahooStockData = new ArrayList<YahooStockData>();
+			ArrayList<YahooStockData> lstYahooStockData = new ArrayList<>();
 			cmp.forEach(e -> {
 				try {
 					if (!e.getNseCode().isEmpty()) {
@@ -91,27 +89,24 @@ public class YahooStockDataService {
 							company.setBseCode(e.getBseCode());
 							company.setNseCode(e.getNseCode());
 							company.setIndustry(e.getIndustry());
-							logger.debug("Stock id:" + e.getStockId() + "\n");
 
 							YahooStockData yahooStockData = new YahooStockData();
 							BigDecimal price = stock.getQuote().getPrice();
 							yahooStockData.setPrice(price);
 							BigDecimal marketCap = stock.getStats().getMarketCap();
-							if (marketCap != null)
+							if (marketCap != null){
 							yahooStockData.setMarketCap(marketCap.divideToIntegralValue(BigDecimal.valueOf(10000000)));
+							}
 							BigDecimal dividend = stock.getDividend().getAnnualYield();
 							yahooStockData.setDividend(dividend);
-							BigDecimal EPS = stock.getStats().getEps();
-							yahooStockData.setEPS(EPS);
+							BigDecimal eps = stock.getStats().getEps();
+							yahooStockData.setEPS(eps);
 							yahooStockData.setCompany(company);
 							BigDecimal pe = stock.getStats().getPe();
 							yahooStockData.setPE(pe);
 							lstYahooStockData.add(yahooStockData);
 
-							logger.info("**********" + stock.getName() + "***********");
-							logger.info("Stock DB ID:" + e.getStockId() + " price:" + price + " " + "dividend:"
-									+ dividend + " " + "marketCap:" + marketCap);
-							logger.info("EPS:" + stock.getStats().getEps() + " PE:" + stock.getStats().getPe());
+							logger.info( stock.getName() );
 							logger.info("**************************************");
 						}
 					}
